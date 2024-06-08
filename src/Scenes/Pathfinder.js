@@ -13,6 +13,9 @@ class Pathfinder extends Phaser.Scene {
         this.TILEHEIGHT = 20;
         this.playerSpeed = 0;
         this.globalIsWalking = false;
+        this.dashDistance = 200;
+        this.dashDuration = 200;
+        this.currentCoinCollected = 0;
 
         this.cannonTimer = 0;
         this.cannonRespawn = 90;
@@ -27,9 +30,11 @@ class Pathfinder extends Phaser.Scene {
 
         this.dashCooldown = 0;
         this.dashCooldownReset = 300;
+        this.dashing = false;
     }
 
     create() {
+        let scenevar = this;
         // Create a new tilemap which uses 64x64 tiles, and is 20 tiles wide and 20 tiles tall
         this.map = this.add.tilemap("basic-map", this.TILESIZE, this.TILESIZE, this.TILEWIDTH, this.TILEHEIGHT);
         console.log(this.map)
@@ -59,6 +64,12 @@ class Pathfinder extends Phaser.Scene {
             my.sprite.cannonball[i].setVisible(false);
             my.sprite.cannonball[i].setScale(2)
         }
+        my.sprite.coin = [];
+        for (let i = 0; i < 6; i++){
+            my.sprite.coin[i] = this.add.sprite(0,0,"coin").setOrigin(.5);
+            my.sprite.coin[i].setVisible(false);
+            my.sprite.coin[i].setScale(0.15);
+        }
 
 
         // Camera settings
@@ -79,7 +90,48 @@ class Pathfinder extends Phaser.Scene {
 
             return Phaser.Geom.Intersects.RectangleToRectangle(boundsA, boundsB);
         }
+
+        this.updateSpaceCooldown = function() {
+            if (my.sprite.spaceCooldown) {
+                my.sprite.spaceCooldown.destroy(true);
+            }
+            my.sprite.spaceCooldown = scenevar.add.text(0,750,"Dash Cooldown: "+(this.dashCooldown/60).toFixed(1)+" SPACE",{
+            color: "Gold",
+            fontSize: '40px',
+            strokeThickness: 0.3,
+            stroke: "Black"
+        }).setScrollFactor(0);
+        if (this.dashCooldown == 0){
+            my.sprite.spaceCooldown.setColor('GreenYellow');
+        }
+    }
+        this.updateSpaceCooldown();
+
+        this.updateHealth = function() {
+            if (my.sprite.healthText) {
+                my.sprite.healthText.destroy(true);
+            }
+            my.sprite.healthText = scenevar.add.text(0,0,"Health: "+this.playerHP,{
+            color: "Red",
+            fontSize: '40px',
+            strokeThickness: 0.5,
+            stroke: "Black"
+        }).setScrollFactor(0);
+    }
+        this.updateHealth();
         
+        this.updateCoins = function() {
+            if (my.sprite.coinText) {
+                my.sprite.coinText.destroy(true);
+            }
+            my.sprite.coinText = scenevar.add.text(this.map.widthInPixels-250,0,"Coins: "+globalThis.coin,{
+            color: "Gold",
+            fontSize: '40px',
+            strokeThickness: 0.5,
+            stroke: "Black"
+        }).setScrollFactor(0);
+    }
+        this.updateCoins();
 
         // Initialize EasyStar pathfinder
         this.finder = new EasyStar.js();
@@ -101,15 +153,33 @@ class Pathfinder extends Phaser.Scene {
 
     update() {
         this.cannonTimer++;
-        if (this.dashCooldown > 0) this.dashCooldown--;
+        if (this.dashCooldown > 0) {
+            this.dashCooldown--;
+            this.updateSpaceCooldown();
+        }
         if (this.cannonTimer > this.cannonRespawn) {
-            this.spawnCannon();
+            this.spawnCannon(2);    //Spawn 2 cannons.
             this.cannonTimer = 0;
-            this.spawnCounter++;
+            // this.spawnCounter += 2;
+            //Spawn a coin when a cannon spawns
+            this.spawnCoin();
             if (this.spawnCounter >= this.targetSpawn){
-                if (this.cannonRespawn > 10) this.cannonRespawn -= 8;
-                this.targetSpawn += 2;
+                if (this.cannonRespawn > 10) this.cannonRespawn -= 7;
+                this.targetSpawn += 4;
                 this.spawnCounter = 0;
+            }
+        }
+
+        for (let coin of my.sprite.coin){
+            if (coin.visible){
+                if (this.runCollisionCheck(my.sprite.purpleTownie,coin)){
+                    //When player hits coin
+                    globalThis.coin++;
+                    this.currentCoinCollected++;
+                    coin.setVisible(false);
+                    this.updateCoins();
+                    this.spawnCannon(2);
+                }
             }
         }
 
@@ -156,9 +226,12 @@ class Pathfinder extends Phaser.Scene {
                     ball.setVisible(false);
                 }
 
-                if (this.runCollisionCheck(ball,my.sprite.purpleTownie)) {
-                    this.playerHP--;
-                    ball.setVisible(false);
+                if (!this.dashing){
+                    if (this.runCollisionCheck(ball,my.sprite.purpleTownie)) {
+                        this.playerHP--;
+                        this.updateHealth();
+                        ball.setVisible(false);
+                    }
                 }
 
 
@@ -166,6 +239,10 @@ class Pathfinder extends Phaser.Scene {
         }
         //If we get hit 3 times go back to the menu (for now)
         if (this.playerHP <= 0){
+            if (this.currentCoinCollected > globalThis.topRun){
+                globalThis.topRun = this.currentCoinCollected;
+            }
+
             this.scene.start("menuScene");
         }
 
@@ -189,6 +266,18 @@ class Pathfinder extends Phaser.Scene {
     //Convert coordinate to tile
     tileYtoWorld(tileY) {
         return tileY * this.TILESIZE;
+    }
+
+    spawnCoin(){
+        let tempX = Math.random() * (1048 - 128) + 128;
+        let tempY = Math.random() * (1048 - 130) + 130;
+        for (let coin of my.sprite.coin){
+            if (!coin.visible){
+                coin.setPosition(tempX,tempY);
+                coin.setVisible(true);
+                break;
+        }}
+
     }
 
     // layersToGrid
@@ -250,20 +339,21 @@ class Pathfinder extends Phaser.Scene {
         var tweens = [];
         for (var i = 0; i < path.length - 2; i++) {
             //Move along path, a little bit of random numbers to make the player not walk straight.
-            var ex = path[i + 1].x * this.TILESIZE + this.TILESIZE/4 + Math.random() * this.TILESIZE/2;
-            var ey = path[i + 1].y * this.TILESIZE + this.TILESIZE/4 + Math.random() * this.TILESIZE/2;
+            var ex = path[i + 1].x * this.TILESIZE + this.TILESIZE / 2;
+            // var ey = path[i + 1].y * this.TILESIZE + this.TILESIZE/4 + Math.random() * this.TILESIZE/2;
+            var ey = path[i+1].y * this.TILESIZE + this.TILESIZE / 2;
             //Push numbers to the tween
             tweens.push({
                 x: ex,
                 y: ey,
-                duration: 120  - this.playerSpeed
+                duration: 225  - this.playerSpeed
             });
         }
         //Last point in the travel will be exactly where the player clicked.
         tweens.push({
             x: mouseX,
             y: mouseY,
-            duration: 120 - this.playerSpeed
+            duration: 225 - this.playerSpeed
         })
         //Run's the tween.
         this.pathTween = this.tweens.chain({
@@ -284,6 +374,7 @@ class Pathfinder extends Phaser.Scene {
         let pointer = this.input.activePointer;
         let mouseX = this.cameras.main.scrollX + pointer.x;
         let mouseY = this.cameras.main.scrollY + pointer.y;
+        //Dont dash out of the map :(
         if (mouseX < 128) mouseX = 135;
         else if (mouseX > 1152) mouseX = 1148;
         if (mouseY < 128) mouseY = 135;
@@ -292,65 +383,67 @@ class Pathfinder extends Phaser.Scene {
         let direction = new Phaser.Math.Vector2(mouseX - this.activeCharacter.x, mouseY - this.activeCharacter.y);
         direction.normalize();
         
-        let dashDistance = 200; // Adjust the dash distance as needed
-        let dashDuration = 200; // Adjust the dash duration as needed
-        
-        let dashX = this.activeCharacter.x + direction.x * dashDistance;
-        let dashY = this.activeCharacter.y + direction.y * dashDistance;
+        let dashX = this.activeCharacter.x + direction.x * this.dashDistance;
+        let dashY = this.activeCharacter.y + direction.y * this.dashDistance;
 
         if (this.dashTween) this.dashTween.stop();
+        this.dashing = true;
 
         this.dashTween = this.tweens.add({
             targets: this.activeCharacter,
             x: dashX,
             y: dashY,
-            duration: dashDuration,
+            duration: this.dashDuration,
             ease: 'Power2',
             onComplete: () => {
+                //TP player back after they dash out.
                 if (my.sprite.purpleTownie.x < 128) my.sprite.purpleTownie.setX(135);
                 else if (my.sprite.purpleTownie.x > 1152) my.sprite.purpleTownie.setX(1148);
                 if (my.sprite.purpleTownie.y < 128) my.sprite.purpleTownie.setY(135);
-                else if (my.sprite.purpleTownie.y > 1152) my.sprite.purpleTownie.setY(1148);; 
+                else if (my.sprite.purpleTownie.y > 1152) my.sprite.purpleTownie.setY(1148);
+                //This is used to disable collision checks on cannon balls during the dash.
+                this.dashing = false; 
                 this.dashTween = undefined;
             }
         });
     }
 
     //Spawns a cannon on a random part of the map,  using the restrictions i gave it.
-    spawnCannon(){
+    spawnCannon(number = 1){
         let tempY;
         let tempX;
         let tempRotation;
         let tempSide;
-        //Get and save coordinates so we can spawn.
-        if (Math.floor(Math.random() * 2) == 1) {   //50/50 for if it'll appear on the sides or top/bottom.
-            if (Math.floor(Math.random() * 2) == 1){
-                tempY = 91;
-                tempRotation = 1.58;
-                tempSide = "top"
-            }
-            else{ 
-                tempY = 1193;
-                tempRotation = -1.58;
-                tempSide = "bot"
-            }
-            tempX = Math.random() * (1152 - 128) + 128;
+        for (let i = 0; i < number; i++){
+            this.spawnCounter++;
+            //Get and save coordinates so we can spawn.
+            if (Math.floor(Math.random() * 2) == 1) {   //50/50 for if it'll appear on the sides or top/bottom.
+                if (Math.floor(Math.random() * 2) == 1){
+                    tempY = 91;
+                    tempRotation = 1.58;
+                    tempSide = "top"
+                }
+                else{ 
+                    tempY = 1193;
+                    tempRotation = -1.58;
+                    tempSide = "bot"
+                }
+                tempX = Math.random() * (1152 - 128) + 128;
 
-        }
-        else {                                      //Spawn on side of map
-            if (Math.floor(Math.random() * 2) == 1){ 
-                tempX = 91;
-                tempRotation = 0;
-                tempSide = "left";
             }
-            else{ tempX = 1193;
-                tempRotation = 3.16;
-                tempSide = "right";
-            }
-        
-
-        tempY = Math.random() * (1152 - 128) + 128;
-        }
+            else {                                      //Spawn on side of map
+                if (Math.floor(Math.random() * 2) == 1){ 
+                    tempX = 91;
+                    tempRotation = 0;
+                    tempSide = "left";
+                }
+                else{ tempX = 1193;
+                    tempRotation = 3.16;
+                    tempSide = "right";
+                }
+            
+            tempY = Math.random() * (1152 - 128) + 128;
+        }}
 
         //Spawn the cannons. Cycle through our cannon objects.
         for (let can of my.sprite.cannon){

@@ -11,6 +11,7 @@ class Load extends Phaser.Scene {
         this.load.image("blue", "blue_townie.png");
         this.load.image("cannon", "cannon.png");
         this.load.image("cannonBall","cannonBall.png");
+        this.load.image("coin","coin.png");
 
         // Load tilemap information
         this.load.image("tilemap_tiles", "tilesheet_complete.png");                   // Packed tilemap
@@ -18,8 +19,9 @@ class Load extends Phaser.Scene {
     }
 
     create() {
-        
-
+        globalThis.coin = 0
+        globalThis.topRun = 0;
+        globalThis.firstPlay = true;
          // ...and pass to the next Scene
          this.scene.start("menuScene");
     }
