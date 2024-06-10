@@ -31,6 +31,8 @@ class Pathfinder extends Phaser.Scene {
         this.dashCooldown = 0;
         this.dashCooldownReset = 300;
         this.dashing = false;
+        this.exitVisible = false;
+        this.coinExitGoal = 20;
     }
 
     create() {
@@ -44,6 +46,8 @@ class Pathfinder extends Phaser.Scene {
         // Create the layers
         this.groundLayer = this.map.createLayer("Background", this.tileset, 0, 0);
         this.treesLayer = this.map.createLayer("Obstacles", this.tileset, 0, 0);
+        this.exitLayer = this.map.createLayer("Exit", this.tileset, 0, 0);
+        this.exitLayer.setVisible(false);
 
         // Create townsfolk sprite
         // Use setOrigin() to ensure the tile space computations work well
@@ -183,6 +187,21 @@ class Pathfinder extends Phaser.Scene {
             }
         }
 
+        if (!this.exitVisible){
+            if (this.currentCoinCollected >= this.coinExitGoal) {
+                this.exitLayer.setVisible(true);
+                this.exitVisible = true;
+            }
+
+        }
+        else {
+            if (my.sprite.purpleTownie.x > 576 && my.sprite.purpleTownie.x < 704 && my.sprite.purpleTownie.y < 192){    //If it is where my exit is
+                if (this.currentCoinCollected > globalThis.topRun){
+                    globalThis.topRun = this.currentCoinCollected;
+                }   //Save top score.
+                this.scene.start("menuScene");
+            }
+        }
 
         for (let can of my.sprite.cannon){
             if (can.visible){
@@ -242,7 +261,9 @@ class Pathfinder extends Phaser.Scene {
             if (this.currentCoinCollected > globalThis.topRun){
                 globalThis.topRun = this.currentCoinCollected;
             }
-
+            globalThis.coin -= 10; //Lose 10 coins when u die.
+            if (globalThis.coin < 0) globalThis.coin = 0; 
+            //Go to menu scene again.
             this.scene.start("menuScene");
         }
 
@@ -477,7 +498,7 @@ class Pathfinder extends Phaser.Scene {
             let props = tileset.getTileProperties(tileID);
             if (props != null) {
                 if (props.cost != null) {
-                    if (props.cost < 100)acceptableTiles.push(tileID)
+                    if (props.cost < 100 || props.cost > 400)acceptableTiles.push(tileID)
                     this.finder.setTileCost(tileID, props.cost);
                 }
             }

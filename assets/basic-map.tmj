@@ -63,8 +63,39 @@
          "width":20,
          "x":0,
          "y":0
+        }, 
+        {
+         "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 525, 525, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 491, 492, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         "height":20,
+         "id":3,
+         "name":"Exit",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":3,
+ "nextlayerid":4,
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"right-down",
@@ -2093,6 +2124,60 @@
                         }]
                 }, 
                 {
+                 "id":432,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":433,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":434,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":435,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":436,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":437,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
                  "id":446,
                  "properties":[
                         {
@@ -2192,6 +2277,61 @@
                         }]
                 }, 
                 {
+                 "id":459,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                },
+            
+                {
+                 "id":460,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":461,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":462,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":463,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":464,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
                  "id":473,
                  "properties":[
                         {
@@ -2253,8 +2393,7 @@
                          "type":"int",
                          "value":20
                         }]
-                },
-            
+                }, 
                 {
                  "id":480,
                  "properties":[
@@ -2289,6 +2428,61 @@
                          "name":"cost",
                          "type":"int",
                          "value":20
+                        }]
+                }, 
+                {
+                 "id":486,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":487,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":488,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":489,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                },
+            
+                {
+                 "id":490,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":491,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
                         }]
                 }, 
                 {
@@ -2391,6 +2585,60 @@
                         }]
                 }, 
                 {
+                 "id":513,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":514,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":515,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":516,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":517,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
+                 "id":518,
+                 "properties":[
+                        {
+                         "name":"cost",
+                         "type":"int",
+                         "value":1
+                        }]
+                }, 
+                {
                  "id":527,
                  "properties":[
                         {
@@ -2398,7 +2646,8 @@
                          "type":"int",
                          "value":20
                         }]
-                }, 
+                },
+            
                 {
                  "id":528,
                  "properties":[
@@ -2434,8 +2683,7 @@
                          "type":"int",
                          "value":20
                         }]
-                },
-            
+                }, 
                 {
                  "id":532,
                  "properties":[

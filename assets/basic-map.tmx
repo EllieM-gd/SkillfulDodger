@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="1">
  <editorsettings>
   <export target="basic-map.tmj" format="json"/>
  </editorsettings>
@@ -1115,6 +1115,36 @@
     <property name="cost" type="int" value="20"/>
    </properties>
   </tile>
+  <tile id="432">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="433">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="434">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="435">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="436">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="437">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
   <tile id="446">
    <properties>
     <property name="cost" type="int" value="20"/>
@@ -1168,6 +1198,36 @@
   <tile id="456">
    <properties>
     <property name="cost" type="int" value="20"/>
+   </properties>
+  </tile>
+  <tile id="459">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="460">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="461">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="462">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="463">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="464">
+   <properties>
+    <property name="cost" type="int" value="1"/>
    </properties>
   </tile>
   <tile id="473">
@@ -1225,6 +1285,36 @@
     <property name="cost" type="int" value="20"/>
    </properties>
   </tile>
+  <tile id="486">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="487">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="488">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="489">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="490">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="491">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
   <tile id="500">
    <properties>
     <property name="cost" type="int" value="20"/>
@@ -1278,6 +1368,36 @@
   <tile id="510">
    <properties>
     <property name="cost" type="int" value="20"/>
+   </properties>
+  </tile>
+  <tile id="513">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="514">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="515">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="516">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="517">
+   <properties>
+    <property name="cost" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="518">
+   <properties>
+    <property name="cost" type="int" value="1"/>
    </properties>
   </tile>
   <tile id="527">
@@ -1382,6 +1502,30 @@
 178,177,0,0,0,0,0,0,237,238,0,0,0,0,0,0,0,0,176,178,
 178,199,203,203,203,203,203,203,203,203,203,203,203,203,203,203,203,203,200,178,
 178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178
+</data>
+ </layer>
+ <layer id="3" name="Exit" width="20" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,525,525,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,491,492,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
 </map>

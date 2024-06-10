@@ -16,11 +16,11 @@
             "scaleInDock": 1
         },
         "basic-map.tmx": {
-            "scale": 0.125,
+            "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": -60,
-                "y": 668
+                "x": 707.3333333333333,
+                "y": 493.99999999999994
             }
         },
         "basic-map.tmx#tilesheet_complete": {
