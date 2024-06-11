@@ -15,6 +15,7 @@ class Menu extends Phaser.Scene {
         //Set canvas as image.
         this.background = this.add.image(0,0, "background").setOrigin(0,0);  
         this.background.setScale(1.2);      
+        this.coinsNeeded = 20;
         console.log(globalThis.coin);
 
         //Load Fonts into the game

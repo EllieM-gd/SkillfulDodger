@@ -17,10 +17,10 @@
         },
         "basic-map.tmx": {
             "scale": 0.75,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 707.3333333333333,
-                "y": 493.99999999999994
+                "x": 540.6666666666666,
+                "y": 328.66666666666674
             }
         },
         "basic-map.tmx#tilesheet_complete": {

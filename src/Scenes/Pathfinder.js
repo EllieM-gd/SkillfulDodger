@@ -26,6 +26,7 @@ class Pathfinder extends Phaser.Scene {
         this.cannonShootTimer = 180;
         this.cannonCount = 100;
         this.cannonBallSpeed = 5;
+        this.cannonSpawnPerSpawn = 2;
 
 
         this.dashCooldown = 0;
@@ -74,6 +75,8 @@ class Pathfinder extends Phaser.Scene {
             my.sprite.coin[i].setVisible(false);
             my.sprite.coin[i].setScale(0.15);
         }
+
+        this.setLevel();
 
 
         // Camera settings
@@ -430,6 +433,37 @@ class Pathfinder extends Phaser.Scene {
                 this.dashTween = undefined;
             }
         });
+    }
+
+
+    //Level Manager. Here we can adjust the values of the game when the difficulty increases.
+    setLevel(){
+        switch(globalThis.level) {
+            case 1: 
+                this.cannonSpawnPerSpawn = 3;
+                this.targetSpawn = 10;
+                this.coinExitGoal = 25;
+                this.cannonShootTimer = 170;
+                break;
+            case 2: 
+                this.cannonSpawnPerSpawn = 4;
+                this.targetSpawn = 12;
+                this.coinExitGoal = 30;
+                this.cannonShootTimer = 160;
+                break;
+            case 3: 
+                this.cannonSpawnPerSpawn = 5;
+                this.targetSpawn = 15;
+                this.coinExitGoal = 35;
+                this.cannonShootTimer = 150;
+                break;
+            default:
+                break;
+            
+        }
+
+
+
     }
 
     //Spawns a cannon on a random part of the map,  using the restrictions i gave it.

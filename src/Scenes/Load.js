@@ -21,6 +21,7 @@ class Load extends Phaser.Scene {
     create() {
         globalThis.coin = 0
         globalThis.topRun = 0;
+        globalThis.level = 0;
         globalThis.firstPlay = true;
          // ...and pass to the next Scene
          this.scene.start("menuScene");
