@@ -153,121 +153,124 @@ class Pathfinder extends Phaser.Scene {
         // function this.handleClick()
         this.input.on('pointerdown', this.handleClick, this);
         this.input.keyboard.on('keydown-SPACE', this.dashTowardsPointer, this);
+        this.frameTime = 0;
     }
 
-    update() {
-        this.cannonTimer++;
-        if (this.dashCooldown > 0) {
-            this.dashCooldown--;
-            this.updateSpaceCooldown();
-        }
-        if (this.cannonTimer > this.cannonRespawn) {
-            this.spawnCannon(2);    //Spawn 2 cannons.
-            this.cannonTimer = 0;
-            // this.spawnCounter += 2;
-            //Spawn a coin when a cannon spawns
-            this.spawnCoin();
-            if (this.spawnCounter >= this.targetSpawn){
-                if (this.cannonRespawn > 10) this.cannonRespawn -= 7;
-                this.targetSpawn += 4;
-                this.spawnCounter = 0;
+    update(time, delta) {
+        this.frameTime += delta
+        if (this.frameTime > 16.5) {
+            this.cannonTimer++;
+            if (this.dashCooldown > 0) {
+                this.dashCooldown--;
+                this.updateSpaceCooldown();
             }
-        }
-
-        for (let coin of my.sprite.coin){
-            if (coin.visible){
-                if (this.runCollisionCheck(my.sprite.purpleTownie,coin)){
-                    //When player hits coin
-                    globalThis.coin++;
-                    this.currentCoinCollected++;
-                    coin.setVisible(false);
-                    this.updateCoins();
-                    this.spawnCannon(2);
+            if (this.cannonTimer > this.cannonRespawn) {
+                this.spawnCannon(2);    //Spawn 2 cannons.
+                this.cannonTimer = 0;
+                // this.spawnCounter += 2;
+                //Spawn a coin when a cannon spawns
+                this.spawnCoin();
+                if (this.spawnCounter >= this.targetSpawn){
+                    if (this.cannonRespawn > 10) this.cannonRespawn -= 7;
+                    this.targetSpawn += 4;
+                    this.spawnCounter = 0;
                 }
             }
-        }
 
-        if (!this.exitVisible){
-            if (this.currentCoinCollected >= this.coinExitGoal) {
-                this.exitLayer.setVisible(true);
-                this.exitVisible = true;
-            }
-
-        }
-        else {
-            if (my.sprite.purpleTownie.x > 576 && my.sprite.purpleTownie.x < 704 && my.sprite.purpleTownie.y < 192){    //If it is where my exit is
-                if (this.currentCoinCollected > globalThis.topRun){
-                    globalThis.topRun = this.currentCoinCollected;
-                }   //Save top score.
-                this.scene.start("menuScene");
-            }
-        }
-
-        for (let can of my.sprite.cannon){
-            if (can.visible){
-                can.shootTimer--;
-                if (can.shootTimer < 0){
-                    //SHOOT BULLET
-                    for (let ball of my.sprite.cannonball){
-                        if (!ball.visible){
-                            ball.setPosition(can.x,can.y);
-                            ball.dir = can.side;
-                            ball.setVisible(true);
-                            break;
-                        }
+            for (let coin of my.sprite.coin){
+                if (coin.visible){
+                    if (this.runCollisionCheck(my.sprite.purpleTownie,coin)){
+                        //When player hits coin
+                        globalThis.coin++;
+                        this.currentCoinCollected++;
+                        coin.setVisible(false);
+                        this.updateCoins();
+                        this.spawnCannon(2);
                     }
-                    console.log("Bang!");
-
-                    //Set Visible
-                    can.setVisible(false);
                 }
+            }
 
+            if (!this.exitVisible){
+                if (this.currentCoinCollected >= this.coinExitGoal) {
+                    this.exitLayer.setVisible(true);
+                    this.exitVisible = true;
+                }
 
             }
-        }
+            else {
+                if (my.sprite.purpleTownie.x > 576 && my.sprite.purpleTownie.x < 704 && my.sprite.purpleTownie.y < 192){    //If it is where my exit is
+                    if (this.currentCoinCollected > globalThis.topRun){
+                        globalThis.topRun = this.currentCoinCollected;
+                    }   //Save top score.
+                    this.scene.start("menuScene");
+                }
+            }
 
-        for (let ball of my.sprite.cannonball){
-            if (ball.visible){
-                //Move every visible ball in a direction based on its stored variable.
-                if (ball.dir == "top"){
-                    ball.setY(ball.y+this.cannonBallSpeed)
-                }
-                else if (ball.dir == "bot") {
-                    ball.setY(ball.y-this.cannonBallSpeed)
-                }
-                else if (ball.dir == "left") {
-                    ball.setX(ball.x+this.cannonBallSpeed)
-                }
-                else if (ball.dir == "right") {
-                    ball.setX(ball.x-this.cannonBallSpeed)
-                }   //When its out of bounds make it invisible/despawn it
-                if (ball.x < 0 || ball.x > this.map.widthInPixels || ball.y < 0 || ball.y > this.map.heightInPixels){
-                    ball.setVisible(false);
-                }
+            for (let can of my.sprite.cannon){
+                if (can.visible){
+                    can.shootTimer--;
+                    if (can.shootTimer < 0){
+                        //SHOOT BULLET
+                        for (let ball of my.sprite.cannonball){
+                            if (!ball.visible){
+                                ball.setPosition(can.x,can.y);
+                                ball.dir = can.side;
+                                ball.setVisible(true);
+                                break;
+                            }
+                        }
+                        console.log("Bang!");
 
-                if (!this.dashing){
-                    if (this.runCollisionCheck(ball,my.sprite.purpleTownie)) {
-                        this.playerHP--;
-                        this.updateHealth();
+                        //Set Visible
+                        can.setVisible(false);
+                    }
+
+
+                }
+            }
+
+            for (let ball of my.sprite.cannonball){
+                if (ball.visible){
+                    //Move every visible ball in a direction based on its stored variable.
+                    if (ball.dir == "top"){
+                        ball.setY(ball.y+this.cannonBallSpeed)
+                    }
+                    else if (ball.dir == "bot") {
+                        ball.setY(ball.y-this.cannonBallSpeed)
+                    }
+                    else if (ball.dir == "left") {
+                        ball.setX(ball.x+this.cannonBallSpeed)
+                    }
+                    else if (ball.dir == "right") {
+                        ball.setX(ball.x-this.cannonBallSpeed)
+                    }   //When its out of bounds make it invisible/despawn it
+                    if (ball.x < 0 || ball.x > this.map.widthInPixels || ball.y < 0 || ball.y > this.map.heightInPixels){
                         ball.setVisible(false);
                     }
+
+                    if (!this.dashing){
+                        if (this.runCollisionCheck(ball,my.sprite.purpleTownie)) {
+                            this.playerHP--;
+                            this.updateHealth();
+                            ball.setVisible(false);
+                        }
+                    }
+
+
                 }
-
-
             }
-        }
-        //If we get hit 3 times go back to the menu (for now)
-        if (this.playerHP <= 0){
-            if (this.currentCoinCollected > globalThis.topRun){
-                globalThis.topRun = this.currentCoinCollected;
+            //If we get hit 3 times go back to the menu (for now)
+            if (this.playerHP <= 0){
+                if (this.currentCoinCollected > globalThis.topRun){
+                    globalThis.topRun = this.currentCoinCollected;
+                }
+                globalThis.coin -= 10; //Lose 10 coins when u die.
+                if (globalThis.coin < 0) globalThis.coin = 0; 
+                //Go to menu scene again.
+                this.scene.start("menuScene");
             }
-            globalThis.coin -= 10; //Lose 10 coins when u die.
-            if (globalThis.coin < 0) globalThis.coin = 0; 
-            //Go to menu scene again.
-            this.scene.start("menuScene");
+            this.frameTime = 0;
         }
-
-
     }
     //Not used but keeping just in case. Sets the cost of all the tiles on the map to be 1 so every tile is walkable.
     resetCost(tileset) {
