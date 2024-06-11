@@ -34,6 +34,11 @@ class Pathfinder extends Phaser.Scene {
         this.dashing = false;
         this.exitVisible = false;
         this.coinExitGoal = 20;
+        this.coinStreak = 0;
+        this.coinStreakTracker = 0;
+        this.coinStreakReset = 240;
+        this.barWidth = 40; 
+        this.barHeight = 10; 
     }
 
     create() {
@@ -126,6 +131,22 @@ class Pathfinder extends Phaser.Scene {
         }).setScrollFactor(0);
     }
         this.updateHealth();
+
+        this.updateCoinStreak = function() {
+            if (my.sprite.coinStreakText) {
+                my.sprite.coinStreakText.destroy(true);
+            }
+            my.sprite.coinStreakText = scenevar.add.text(this.cameras.main.scrollX + my.sprite.purpleTownie.x-25,my.sprite.purpleTownie.y - this.cameras.main.scrollY - 70,this.coinStreak+"x",{
+            color: "Yellow",
+            fontSize: '30px',
+            strokeThickness: 0.5,
+            stroke: "Black"
+        }).setScrollFactor(0);
+            if (this.coinStreak < 4){
+                my.sprite.coinStreakText.setVisible(false);
+            }
+    }
+        this.updateCoinStreak();
         
         this.updateCoins = function() {
             if (my.sprite.coinText) {
@@ -156,19 +177,27 @@ class Pathfinder extends Phaser.Scene {
         // function this.handleClick()
         this.input.on('pointerdown', this.handleClick, this);
         this.input.keyboard.on('keydown-SPACE', this.dashTowardsPointer, this);
+
+
+
         this.frameTime = 0;
+        this.bar = this.add.graphics();
+        this.updateBar();
     }
 
     update(time, delta) {
+        this.updateCoinStreak();
+        this.updateBar();
         this.frameTime += delta
         if (this.frameTime > 16.5) {
+            if (this.coinStreakTracker > 0) this.coinStreakTracker -= 1;
             this.cannonTimer++;
             if (this.dashCooldown > 0) {
                 this.dashCooldown--;
                 this.updateSpaceCooldown();
             }
             if (this.cannonTimer > this.cannonRespawn) {
-                this.spawnCannon(2);    //Spawn 2 cannons.
+                this.spawnCannon(this.cannonSpawnPerSpawn);    //Spawn 2 cannons.
                 this.cannonTimer = 0;
                 // this.spawnCounter += 2;
                 //Spawn a coin when a cannon spawns
@@ -179,11 +208,22 @@ class Pathfinder extends Phaser.Scene {
                     this.spawnCounter = 0;
                 }
             }
+            
+            if (this.coinStreakTracker <= 0){
+                this.coinStreak = 0;
+            }
 
             for (let coin of my.sprite.coin){
                 if (coin.visible){
                     if (this.runCollisionCheck(my.sprite.purpleTownie,coin)){
                         //When player hits coin
+                        this.coinStreakTracker = this.coinStreakReset;
+                        this.coinStreak++;
+                        if (this.coinStreak >= 10){
+                            if ((Math.random() * (5 - 1) + 1) == 1){
+                                globalThis.coin++; //20% chance you get 2 coins if your streak is above 10. 
+                            }
+                        }
                         globalThis.coin++;
                         this.currentCoinCollected++;
                         coin.setVisible(false);
@@ -222,8 +262,6 @@ class Pathfinder extends Phaser.Scene {
                                 break;
                             }
                         }
-                        console.log("Bang!");
-
                         //Set Visible
                         can.setVisible(false);
                     }
@@ -286,6 +324,31 @@ class Pathfinder extends Phaser.Scene {
             }
         }
     }
+
+    updateBar() {
+        // Clear the previous bar
+        this.bar.clear();
+
+        // Calculate the current width of the bar based on the current value
+        let currentBarWidth = (this.coinStreakTracker / this.coinStreakReset) * this.barWidth;
+
+        // Draw the background of the bar (e.g., gray)
+        this.bar.fillStyle(0x808080);
+        this.bar.fillRect(20, 20, this.barWidth, this.barHeight);
+
+        // Draw the current value of the bar (e.g., green)
+        this.bar.fillStyle(0x00ff00);
+        this.bar.fillRect(20, 20, currentBarWidth, this.barHeight);
+
+        if (this.coinStreak < 4) {
+            this.bar.setVisible(false);
+        }
+        else this.bar.setVisible(true);
+
+        this.bar.setX(this.cameras.main.scrollX + my.sprite.purpleTownie.x-40)
+        this.bar.setY(my.sprite.purpleTownie.y - 60)
+    }
+
     //Convert coordinate to tile
     tileXtoWorld(tileX) {
         return tileX * this.TILESIZE;
