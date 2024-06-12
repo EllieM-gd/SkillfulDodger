@@ -190,6 +190,22 @@ class Pathfinder extends Phaser.Scene {
         this.input.on('pointerdown', this.handleClick, this);
         this.input.keyboard.on('keydown-SPACE', this.dashTowardsPointer, this);
 
+        //COPPIED CODE TO CHANGE LATER
+        // movement vfx
+        my.vfx.jumping = this.add.particles(0, 0, "kenny-particles", {
+            frame: ['flame_02.png', 'flame_03.png'],
+            // TODO: Try: add random: true
+            scale: {start: 0.04, end: 0.15},
+            maxAliveParticles: 40,
+            particleColor: 0xD2691E,
+            lifespan: 250,
+            gravityY: 100,
+            alpha: {start: 1, end: 0.0}, 
+        });
+        my.vfx.jumping.startFollow(my.sprite.player, my.sprite.player.displayWidth/2, my.sprite.player.displayHeight/2-5, false);
+        my.vfx.jumping.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
+        my.vfx.jumping.stop();  //Hides Particles
+
 
         this.calibrateScene();
         this.frameTime = 0;
