@@ -72,7 +72,7 @@ class Menu extends Phaser.Scene {
             this.scene.start("pathfinderScene"); //Goto start scene. Might add more here later.
         }
         else if (x < 855 && x > 484 && y > 410 && y < 515){/* SHOP BUTTON */
-            console.log("shop button pressed"); //No shop created yet
+            this.scene.start("shopScene");
         }
         else if (x < 855 && x > 484 && y > 600 && y < 700){/* SETTINGS BUTTON */
             console.log("settings button pressed"); //No settings created yet

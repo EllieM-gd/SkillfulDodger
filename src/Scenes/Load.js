@@ -19,10 +19,22 @@ class Load extends Phaser.Scene {
     }
 
     create() {
-        globalThis.coin = 0
+        globalThis.coin = 0;
         globalThis.topRun = 0;
         globalThis.level = 0;
         globalThis.firstPlay = true;
+        globalThis.upgradeCount = 0;
+
+        //Set upgrade variables
+        globalThis.basicShoeUpgrade = false;
+        globalThis.coinDupeUpgrade = false;
+        globalThis.energyDrinkUpgrade = false;
+        globalThis.coolShoesUpgrade = false;
+        globalThis.stopWatchUpgrade = false;
+        globalThis.shieldUpgrade = false;
+
+
+
          // ...and pass to the next Scene
          this.scene.start("menuScene");
     }

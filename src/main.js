@@ -25,11 +25,7 @@ let config = {
     },
     width: 1280,
     height: 800,
-    scene: [Load, Menu, Pathfinder],
-    fps: {
-        target: 60,
-        forceSetTimeOut: true
-      },
+    scene: [Load, Menu, Pathfinder, Shop]
 }
 
 var cursors;

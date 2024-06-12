@@ -22,11 +22,14 @@ class Pathfinder extends Phaser.Scene {
         this.spawnCounter = 0;
         this.targetSpawn = 5;
         this.playerHP = 3;
+        this.hasArmor = false;
+        this.coinDuplicator = false;
 
         this.cannonShootTimer = 180;
         this.cannonCount = 100;
         this.cannonBallSpeed = 5;
         this.cannonSpawnPerSpawn = 2;
+        this.shield = false;
 
 
         this.dashCooldown = 0;
@@ -36,7 +39,7 @@ class Pathfinder extends Phaser.Scene {
         this.coinExitGoal = 20;
         this.coinStreak = 0;
         this.coinStreakTracker = 0;
-        this.coinStreakReset = 240;
+        this.coinStreakReset = 180;
         this.barWidth = 40; 
         this.barHeight = 10; 
     }
@@ -123,12 +126,24 @@ class Pathfinder extends Phaser.Scene {
             if (my.sprite.healthText) {
                 my.sprite.healthText.destroy(true);
             }
+            if (!this.shield){
             my.sprite.healthText = scenevar.add.text(0,0,"Health: "+this.playerHP,{
             color: "Red",
             fontSize: '40px',
             strokeThickness: 0.5,
             stroke: "Black"
         }).setScrollFactor(0);
+    }
+        if (this.shield) {
+            my.sprite.healthText = scenevar.add.text(0,0,"Health: "+this.playerHP+ " (SHIELDED)",{
+                color: "Blue",
+                fontSize: '40px',
+                strokeThickness: 0.5,
+                stroke: "Black"
+            }).setScrollFactor(0);
+        }
+
+
     }
         this.updateHealth();
 
@@ -179,10 +194,11 @@ class Pathfinder extends Phaser.Scene {
         this.input.keyboard.on('keydown-SPACE', this.dashTowardsPointer, this);
 
 
-
+        this.calibrateScene();
         this.frameTime = 0;
         this.bar = this.add.graphics();
         this.updateBar();
+        console.log("Level: "+globalThis.level);
     }
 
     update(time, delta) {
@@ -220,15 +236,22 @@ class Pathfinder extends Phaser.Scene {
                         this.coinStreakTracker = this.coinStreakReset;
                         this.coinStreak++;
                         if (this.coinStreak >= 10){
-                            if ((Math.random() * (5 - 1) + 1) == 1){
-                                globalThis.coin++; //20% chance you get 2 coins if your streak is above 10. 
+                            let temp = Math.random() * (5 - 1) + 1;
+                            temp = Math.floor(temp)
+                            if (temp == 1){
+                                globalThis.coin++; //20% chance you get 2 coins if your streak is above 10.
+                                this.currentCoinCollected++; 
                             }
+                        }
+                        if (this.coinDuplicator){   //If the player has purhcased the coin duplicator they get +1 coin per coin.
+                            globalThis.coin++;
+                            this.currentCoinCollected++;
                         }
                         globalThis.coin++;
                         this.currentCoinCollected++;
                         coin.setVisible(false);
                         this.updateCoins();
-                        this.spawnCannon(2);
+                        this.spawnCannon(this.cannonSpawnPerSpawn);
                     }
                 }
             }
@@ -291,7 +314,11 @@ class Pathfinder extends Phaser.Scene {
 
                     if (!this.dashing){
                         if (this.runCollisionCheck(ball,my.sprite.purpleTownie)) {
-                            this.playerHP--;
+                            if (this.shield) {
+                                this.shield = false;
+                                //Play shield particle? 
+                            }
+                            else this.playerHP--;
                             this.updateHealth();
                             ball.setVisible(false);
                         }
@@ -302,8 +329,8 @@ class Pathfinder extends Phaser.Scene {
             }
             //If we get hit 3 times go back to the menu (for now)
             if (this.playerHP <= 0){
-                if (this.currentCoinCollected > globalThis.topRun){
-                    globalThis.topRun = this.currentCoinCollected;
+                if (this.currentCoinCollected > globalThis.topRun){ 
+                    globalThis.topRun = this.currentCoinCollected;  //Save run if best score
                 }
                 globalThis.coin -= 10; //Lose 10 coins when u die.
                 if (globalThis.coin < 0) globalThis.coin = 0; 
@@ -323,6 +350,41 @@ class Pathfinder extends Phaser.Scene {
                 }
             }
         }
+    }
+
+    calibrateScene(){
+        if (globalThis.basicShoeUpgrade){
+            this.playerSpeed += 35;
+        }
+        if (globalThis.coinDupeUpgrade){
+            this.coinDuplicator = true;
+        }
+        if (globalThis.energyDrinkUpgrade){
+            this.dashCooldownReset = 210;
+            this.dashDistance = 300;
+        }
+        if (globalThis.coolShoesUpgrade){
+            this.playerSpeed += 35;
+            this.resetCost(this.tileset);
+        }
+        if (globalThis.stopWatchUpgrade){
+            this.coinStreakReset += 90;
+        }
+        if (globalThis.shieldUpgrade){
+            this.shield = true;
+            this.updateHealth();
+        }
+
+        if (globalThis.upgradeCount >= 5){
+            globalThis.level = 3;
+        }
+        else if (globalThis.upgradeCount >= 3){
+            globalThis.level = 2;
+        }
+        else if (globalThis.upgradeCount >= 1){
+            globalThis.level = 1;
+        }
+        this.setLevel();
     }
 
     updateBar() {
