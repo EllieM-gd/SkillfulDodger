@@ -190,22 +190,6 @@ class Pathfinder extends Phaser.Scene {
         this.input.on('pointerdown', this.handleClick, this);
         this.input.keyboard.on('keydown-SPACE', this.dashTowardsPointer, this);
 
-        //COPPIED CODE TO CHANGE LATER
-        // movement vfx
-        my.vfx.jumping = this.add.particles(0, 0, "kenny-particles", {
-            frame: ['flame_02.png', 'flame_03.png'],
-            // TODO: Try: add random: true
-            scale: {start: 0.04, end: 0.15},
-            maxAliveParticles: 40,
-            particleColor: 0xD2691E,
-            lifespan: 250,
-            gravityY: 100,
-            alpha: {start: 1, end: 0.0}, 
-        });
-        my.vfx.jumping.startFollow(my.sprite.player, my.sprite.player.displayWidth/2, my.sprite.player.displayHeight/2-5, false);
-        my.vfx.jumping.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
-        my.vfx.jumping.stop();  //Hides Particles
-
 
         this.calibrateScene();
         this.frameTime = 0;
@@ -264,7 +248,7 @@ class Pathfinder extends Phaser.Scene {
                         this.currentCoinCollected++;
                         coin.setVisible(false);
                         this.updateCoins();
-                        this.spawnCannon(this.cannonSpawnPerSpawn);
+                        this.spawnCannon(1);
                     }
                 }
             }
@@ -578,20 +562,23 @@ class Pathfinder extends Phaser.Scene {
     setLevel(){
         switch(globalThis.level) {
             case 1: 
-                this.cannonSpawnPerSpawn = 3;
+                this.cannonSpawnPerSpawn = 2;
+                this.cannonBallSpeed = 6;
                 this.targetSpawn = 10;
                 this.coinExitGoal = 25;
                 this.cannonShootTimer = 170;
                 break;
             case 2: 
-                this.cannonSpawnPerSpawn = 4;
+                this.cannonSpawnPerSpawn = 3;
                 this.targetSpawn = 12;
+                this.cannonBallSpeed = 6.5;
                 this.coinExitGoal = 30;
                 this.cannonShootTimer = 160;
                 break;
             case 3: 
-                this.cannonSpawnPerSpawn = 5;
+                this.cannonSpawnPerSpawn = 4;
                 this.targetSpawn = 15;
+                this.cannonBallSpeed = 7;
                 this.coinExitGoal = 35;
                 this.cannonShootTimer = 150;
                 break;
@@ -605,7 +592,7 @@ class Pathfinder extends Phaser.Scene {
     }
 
     //Spawns a cannon on a random part of the map,  using the restrictions i gave it.
-    spawnCannon(number = 1){
+    spawnCannon(number){
         let tempY;
         let tempX;
         let tempRotation;
@@ -639,7 +626,7 @@ class Pathfinder extends Phaser.Scene {
                 }
             
             tempY = Math.random() * (1152 - 128) + 128;
-        }}
+        }
 
         //Spawn the cannons. Cycle through our cannon objects.
         for (let can of my.sprite.cannon){
@@ -657,7 +644,7 @@ class Pathfinder extends Phaser.Scene {
                 can.shootTimer = this.cannonShootTimer;
                 break;
             }
-        }
+        }}
 
 
     }

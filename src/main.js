@@ -25,7 +25,7 @@ let config = {
     },
     width: 1280,
     height: 800,
-    scene: [Load, Menu, Pathfinder, Shop]
+    scene: [Load, Menu, Pathfinder, Shop, HTP]
 }
 
 var cursors;

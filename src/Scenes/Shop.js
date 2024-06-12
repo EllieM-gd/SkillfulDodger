@@ -14,6 +14,7 @@ class Shop extends Phaser.Scene {
         this.load.image("enDrink","energyDrink.png");
         this.load.image("shield","shield.png");
         this.load.image("soldOut","SoldOut.png");
+        
     }
 
     create() {

@@ -75,7 +75,7 @@ class Menu extends Phaser.Scene {
             this.scene.start("shopScene");
         }
         else if (x < 855 && x > 484 && y > 600 && y < 700){/* SETTINGS BUTTON */
-            console.log("settings button pressed"); //No settings created yet
+            this.scene.start("howScene"); //No settings created yet
         }
     }
 }
