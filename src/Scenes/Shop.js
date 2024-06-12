@@ -18,12 +18,12 @@ class Shop extends Phaser.Scene {
 
     create() {
         //Variables for shop
-        this.basicShoeCost = 50;
-        this.coinDupeCost = 100;
+        this.basicShoeCost = 25;
+        this.coinDupeCost = 75;
         this.enDrinkCost = 150;
         this.coolerShoeCost = 200;
-        this.stopWatchCost = 75;
-        this.shieldCost = 175;
+        this.stopWatchCost = 80;
+        this.shieldCost = 150;
 
 
         let scenevar = this;
@@ -140,7 +140,6 @@ class Shop extends Phaser.Scene {
         //Get Coordinates
         let x = pointer.x;
         let y = pointer.y;
-        console.log("x: "+x+" y: "+y);
         if (x < 356 && x > 93 && y > 140 && y < 397){ /* Basic Shoes BUTTON */
             if (!globalThis.basicShoeUpgrade){
                 if (globalThis.coin >= this.basicShoeCost){

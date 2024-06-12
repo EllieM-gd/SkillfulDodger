@@ -48,7 +48,6 @@ class Pathfinder extends Phaser.Scene {
         let scenevar = this;
         // Create a new tilemap which uses 64x64 tiles, and is 20 tiles wide and 20 tiles tall
         this.map = this.add.tilemap("basic-map", this.TILESIZE, this.TILESIZE, this.TILEWIDTH, this.TILEHEIGHT);
-        console.log(this.map)
         // Add a tileset to the map
         this.tileset = this.map.addTilesetImage("tilesheet_complete", "tilemap_tiles");
 
@@ -89,14 +88,12 @@ class Pathfinder extends Phaser.Scene {
 
         // Camera settings
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-        console.log("bounds:" + this.map.widthInPixels + "," + this.map.heightInPixels)
         this.cameras.main.startFollow(my.sprite.purpleTownie, true, 0.5, 0.5);
         this.cameras.main.setDeadzone(25, 25);
         this.cameras.main.setZoom(this.SCALE / 2);
 
         // Create grid of visible tiles for use with path planning
         let tinyTownGrid = this.layersToGrid();
-        console.log(tinyTownGrid)
 
         //Collision Check Function.
         this.runCollisionCheck = (spriteA,spriteB) => {
@@ -665,7 +662,6 @@ class Pathfinder extends Phaser.Scene {
                 }
             }
         }
-        console.log(acceptableTiles)
         this.finder.setAcceptableTiles(acceptableTiles)
     }
 
